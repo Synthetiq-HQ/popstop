@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetiq PopStop — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="brand">
+      <h1>Synthetiq PopStop</h1>
+      <span class="version">v1.0</span>
+    </div>
+    <nav class="nav">
+      <a href="#dashboard" class="nav-link active" data-section="dashboard">Dashboard</a>
+      <a href="#allowlist" class="nav-link" data-section="allowlist">Allowlist</a>
+      <a href="#activity" class="nav-link" data-section="activity">Activity Log</a>
+      <a href="#settings" class="nav-link" data-section="settings">Settings</a>
+      <a href="#data" class="nav-link" data-section="data">Data & Backup</a>
+    </nav>
+  </div>
+
+  <main class="main">
+    <!-- Dashboard -->
+    <section id="dashboard" class="section active">
+      <h2>Dashboard</h2>
+      <div class="cards">
+        <div class="card card-killed">
+          <div class="card-value" id="dashKilledToday">0</div>
+          <div class="card-label">Popups Killed Today</div>
+        </div>
+        <div class="card card-total">
+          <div class="card-value" id="dashKilledTotal">0</div>
+          <div class="card-label">Total Killed</div>
+        </div>
+        <div class="card card-allowed">
+          <div class="card-value" id="dashAllowed">0</div>
+          <div class="card-label">Popups Allowed</div>
+        </div>
+        <div class="card card-allowlist">
+          <div class="card-value" id="dashAllowlistCount">0</div>
+          <div class="card-label">Sites Allowlisted</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Shield Status</h3>
+        <div class="shield-bar">
+          <span id="dashShieldText">Shield is ON</span>
+          <label class="toggle">
+            <input type="checkbox" id="dashShieldToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p class="hint">When OFF, the extension will not close any tabs.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Current Mode</h3>
+        <div class="mode-bar">
+          <select id="dashModeSelect">
+            <option value="normal">Normal (threshold 40)</option>
+            <option value="aggressive">Aggressive (threshold 20)</option>
+          </select>
+        </div>
+        <p class="hint">Aggressive mode closes more popups but may produce false positives.</p>
+      </div>
+    </section>
+
+    <!-- Allowlist -->
+    <section id="allowlist" class="section">
+      <h2>Allowlist</h2>
+      <p class="desc">Sites on this list are never blocked. Popups from these sites are always allowed.</p>
+      <div class="toolbar">
+        <input type="text" id="allowlistInput" placeholder="example.com">
+        <button id="allowlistAddBtn" class="btn btn-primary">Add Site</button>
+        <button id="allowlistClearBtn" class="btn btn-danger">Clear All</button>
+      </div>
+      <div id="allowlistTable" class="table-wrap">
+        <div class="empty">No sites in allowlist.</div>
+      </div>
+    </section>
+
+    <!-- Activity Log -->
+    <section id="activity" class="section">
+      <h2>Activity Log</h2>
+      <p class="desc">Recent popup blocking and allowing activity. Up to 100 entries are kept.</p>
+      <div class="toolbar">
+        <button id="activityClearBtn" class="btn btn-danger">Clear Log</button>
+      </div>
+      <div id="activityTable" class="table-wrap">
+        <div class="empty">No activity recorded yet.</div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" class="section">
+      <h2>Settings</h2>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-title">Shield</span>
+          <span class="setting-desc">Master ON/OFF switch for popup blocking</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="settingsShieldToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-title">Mode</span>
+          <span class="setting-desc">Normal (score ≥ 40) or Aggressive (score ≥ 20)</span>
+        </div>
+        <select id="settingsModeSelect">
+          <option value="normal">Normal</option>
+          <option value="aggressive">Aggressive</option>
+        </select>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-title">Debug Mode</span>
+          <span class="setting-desc">Log detailed info to the service worker console</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="settingsDebugToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Data & Backup -->
+    <section id="data" class="section">
+      <h2>Data & Backup</h2>
+
+      <div class="panel">
+        <h3>Export Settings</h3>
+        <p class="desc">Download a JSON file with all your settings, stats, and allowlist.</p>
+        <button id="exportBtn" class="btn btn-primary">Export to JSON</button>
+      </div>
+
+      <div class="panel">
+        <h3>Import Settings</h3>
+        <p class="desc">Restore settings from a previously exported JSON file.</p>
+        <input type="file" id="importFile" accept="application/json" class="file-input">
+        <button id="importBtn" class="btn btn-primary">Import from JSON</button>
+        <div id="importMsg" class="msg hidden"></div>
+      </div>
+
+      <div class="panel panel-danger">
+        <h3>Reset Everything</h3>
+        <p class="desc">Clear all stats, allowlist entries, and activity log. This cannot be undone.</p>
+        <button id="resetAllBtn" class="btn btn-danger">Reset All Data</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="options.js"></script>
+</body>
+</html>

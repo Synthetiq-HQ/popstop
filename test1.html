@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test 1 — Suspicious Popup</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+    h1 { color: #c62828; }
+    button { padding: 14px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 6px; background: #c62828; color: white; }
+    button:hover { background: #b71c1c; }
+    .note { margin-top: 20px; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test 1: Suspicious Popup</h1>
+    <p>Click the button below. It will try to open <code>https://popads.net</code> via <code>window.open()</code>.</p>
+    <button onclick="window.open('https://popads.net')">Open popads.net</button>
+    <div class="note">
+      <strong>Expected result:</strong> A new tab briefly opens, then closes instantly. Focus returns to this tab. A red toast saying "Popup killed: popads.net" appears at the bottom-right.
+    </div>
+  </div>
+</body>
+</html>

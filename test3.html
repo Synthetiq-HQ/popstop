@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test 3 — Invisible Overlay</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; position: relative; }
+    h1 { color: #f57c00; }
+    .real-button { padding: 14px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 6px; background: #f57c00; color: white; }
+    .real-button:hover { background: #e65100; }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0);
+      opacity: 0;
+      z-index: 99999;
+      pointer-events: auto;
+    }
+    .note { margin-top: 20px; color: #666; font-size: 14px; }
+    .warning { color: #c62828; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test 3: Invisible Overlay</h1>
+    <p>There is a transparent, full-page overlay div above this page. Try clicking the real button below.</p>
+    <button class="real-button" onclick="alert('Real button clicked!')">Click me (real button)</button>
+    <div class="note">
+      <strong>Expected result:</strong> The extension should detect the invisible overlay and disable it with <code>pointer-events: none</code>. The alert should fire, proving the real button is still clickable. Check the browser console for "[ClickTrap] Disabled overlay" messages.
+    </div>
+  </div>
+  <!-- Invisible overlay that traps clicks -->
+  <div class="overlay" id="trapOverlay"></div>
+</body>
+</html>

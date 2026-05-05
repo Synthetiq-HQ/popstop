@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Synthetiq PopStop — canyoublockit.com Simulation</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; background: #0f1126; color: #e0e0e0; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { color: #67dfe7; text-align: center; }
+    .subtitle { text-align: center; color: #969bb5; margin-bottom: 40px; }
+    .test-card { background: #1a1d3a; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #2a2d52; }
+    .test-card h2 { margin-top: 0; color: #b322e8; font-size: 18px; }
+    .test-card p { color: #969bb5; font-size: 14px; line-height: 1.6; }
+    .test-btn { padding: 12px 24px; font-size: 14px; cursor: pointer; border: none; border-radius: 6px; background: #b322e8; color: white; font-weight: 600; margin-top: 8px; }
+    .test-btn:hover { background: #9020c0; }
+    .test-btn.secondary { background: #2e7d32; }
+    .test-btn.secondary:hover { background: #1b5e20; }
+    .test-btn.warning { background: #f57c00; }
+    .test-btn.warning:hover { background: #e65100; }
+    .result { margin-top: 12px; padding: 12px; border-radius: 6px; font-size: 13px; min-height: 20px; }
+    .result.pass { background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid #2e7d32; }
+    .result.fail { background: rgba(198, 40, 40, 0.2); color: #ef5350; border: 1px solid #c62828; }
+    .result.info { background: rgba(48, 63, 159, 0.2); color: #7986cb; border: 1px solid #303f9f; }
+    .overlay-trap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.01); opacity: 0; z-index: 99999; pointer-events: auto; }
+    .video-wrap { position: relative; width: 320px; height: 180px; background: #000; border-radius: 8px; margin-top: 12px; }
+    .video-wrap video { width: 100%; height: 100%; border-radius: 8px; }
+    .suspicious-overlay-on-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,0,0,0.1); z-index: 1000; pointer-events: auto; }
+    code { background: #2a2d52; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛡️ Synthetiq PopStop Test Suite</h1>
+    <p class="subtitle">Simulates canyoublockit.com-style ad blocking tests.<br>Load this page as a local file and run with the extension enabled.</p>
+
+    <!-- Test 1: Basic Popup -->
+    <div class="test-card">
+      <h2>Test 1: Basic Popup (window.open)</h2>
+      <p>Opens <code>popads.net</code> via <code>window.open()</code>. The extension should detect this as suspicious and close the tab.</p>
+      <button class="test-btn" onclick="runTest1()">Run Test 1</button>
+      <div id="res1" class="result info">Click the button to test.</div>
+    </div>
+
+    <!-- Test 2: Delayed Script Popup -->
+    <div class="test-card">
+      <h2>Test 2: Delayed Script Popup</h2>
+      <p>Uses <code>setTimeout</code> to open a popup after 500ms. Tests whether the 2-second click session window catches delayed popups.</p>
+      <button class="test-btn" onclick="runTest2()">Run Test 2</button>
+      <div id="res2" class="result info">Click the button to test.</div>
+    </div>
+
+    <!-- Test 3: Blank Tab Redirect -->
+    <div class="test-card">
+      <h2>Test 3: Blank Tab Redirect</h2>
+      <p>Opens <code>about:blank</code>, then navigates it to a suspicious domain via script. Tests the <code>webNavigation.onBeforeNavigate</code> detection.</p>
+      <button class="test-btn" onclick="runTest3()">Run Test 3</button>
+      <div id="res3" class="result info">Click the button to test.</div>
+    </div>
+
+    <!-- Test 4: Burst Popups -->
+    <div class="test-card">
+      <h2>Test 4: Burst Popups (Multiple Tabs)</h2>
+      <p>Opens 3 popups in rapid succession. Tests burst detection scoring and that all are closed.</p>
+      <button class="test-btn" onclick="runTest4()">Run Test 4</button>
+      <div id="res4" class="result info">Click the button to test.</div>
+    </div>
+
+    <!-- Test 5: Invisible Overlay -->
+    <div class="test-card">
+      <h2>Test 5: Invisible Overlay Click Trap</h2>
+      <p>A transparent full-page overlay will appear. Try clicking the real button beneath it.</p>
+      <button class="test-btn warning" id="overlayBtn" onclick="runTest5Done()">Click me (real button)</button>
+      <button class="test-btn" onclick="runTest5()" style="margin-left: 10px;">Activate Overlay</button>
+      <div id="res5" class="result info">Activate the overlay, then try clicking the real button.</div>
+    </div>
+
+    <!-- Test 6: Normal Link (should NOT be blocked) -->
+    <div class="test-card">
+      <h2>Test 6: Normal Link — Should Stay Open</h2>
+      <p>A standard anchor link to <code>example.com</code> (trusted domain). This tab must NOT be closed.</p>
+      <a href="https://example.com" target="_blank" class="test-btn secondary" style="display:inline-block;text-decoration:none;">Open example.com</a>
+      <div id="res6" class="result info">Click the link. The tab should remain open.</div>
+    </div>
+
+    <!-- Test 7: Same-Domain Popup (should NOT be blocked) -->
+    <div class="test-card">
+      <h2>Test 7: Same-Domain Popup — Should Stay Open</h2>
+      <p>Opens the current page in a new tab. Same-domain popups should always be allowed.</p>
+      <button class="test-btn secondary" onclick="window.open(location.href)">Open this page again</button>
+      <div id="res7" class="result info">Click the button. The duplicate tab should remain open.</div>
+    </div>
+
+    <!-- Test 8: Video Player Overlay (should NOT be disabled) -->
+    <div class="test-card">
+      <h2>Test 8: Video Player Protection</h2>
+      <p>A video player with a suspicious-looking overlay div on top. The extension must NOT disable the overlay because it contains a video element.</p>
+      <div class="video-wrap" id="videoWrap">
+        <video controls poster="">
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+        </video>
+        <div class="suspicious-overlay-on-video" id="videoOverlay"></div>
+      </div>
+      <p style="font-size: 12px; color: #888;">The red-tinted overlay above the video should remain interactive (you should be able to click play).</p>
+    </div>
+
+    <div class="test-card" style="text-align:center;">
+      <p style="color:#67dfe7;font-weight:600;">✅ If Tests 1–5 are blocked/disabled and Tests 6–8 remain functional, the extension passes.</p>
+    </div>
+  </div>
+
+  <!-- Invisible overlay for Test 5 -->
+  <div id="trapOverlay" class="overlay-trap" style="display:none;"></div>
+
+  <script>
+    function setResult(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'result ' + type;
+    }
+
+    function runTest1() {
+      setResult('res1', 'Opening popads.net...', 'info');
+      const w = window.open('https://popads.net');
+      setTimeout(() => {
+        if (w && w.closed) {
+          setResult('res1', '✅ PASS: Popup was closed by extension.', 'pass');
+        } else {
+          setResult('res1', '❌ FAIL: Popup is still open. Check extension shield is ON.', 'fail');
+        }
+      }, 800);
+    }
+
+    function runTest2() {
+      setResult('res2', 'Waiting 500ms before opening popup...', 'info');
+      setTimeout(() => {
+        const w = window.open('https://onclickads.net');
+        setTimeout(() => {
+          if (w && w.closed) {
+            setResult('res2', '✅ PASS: Delayed popup was closed.', 'pass');
+          } else {
+            setResult('res2', '❌ FAIL: Delayed popup is still open.', 'fail');
+          }
+        }, 800);
+      }, 500);
+    }
+
+    function runTest3() {
+      setResult('res3', 'Opening about:blank then redirecting...', 'info');
+      const w = window.open('about:blank');
+      if (w) {
+        setTimeout(() => {
+          try {
+            w.document.write('<meta http-equiv="refresh" content="0;url=https://propellerads.com">');
+            w.document.close();
+          } catch(e) {}
+        }, 300);
+        setTimeout(() => {
+          if (w && w.closed) {
+            setResult('res3', '✅ PASS: Redirected blank tab was closed.', 'pass');
+          } else {
+            setResult('res3', '❌ FAIL: Blank tab redirect still open.', 'fail');
+          }
+        }, 1200);
+      }
+    }
+
+    function runTest4() {
+      setResult('res4', 'Opening 3 popups...', 'info');
+      const wins = [];
+      for (let i = 0; i < 3; i++) {
+        wins.push(window.open('https://adnxs.com'));
+      }
+      setTimeout(() => {
+        const closed = wins.filter(w => w && w.closed).length;
+        if (closed === 3) {
+          setResult('res4', '✅ PASS: All 3 burst popups were closed.', 'pass');
+        } else {
+          setResult('res4', '❌ FAIL: Only ' + closed + '/3 popups closed.', 'fail');
+        }
+      }, 1000);
+    }
+
+    function runTest5() {
+      document.getElementById('trapOverlay').style.display = 'block';
+      setResult('res5', 'Overlay is now ACTIVE. Try clicking the real button above.', 'info');
+    }
+
+    function runTest5Done() {
+      const overlay = document.getElementById('trapOverlay');
+      if (overlay.style.display === 'block') {
+        setResult('res5', '✅ PASS: Real button is clickable — overlay was disabled.', 'pass');
+        overlay.style.display = 'none';
+      } else {
+        setResult('res5', 'Click "Activate Overlay" first, then try this button.', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

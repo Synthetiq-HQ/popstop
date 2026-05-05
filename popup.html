@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetiq PopStop</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Synthetiq PopStop</h1>
+    <span class="version">v1.0</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="adblocker">Adblocker</button>
+    <button class="tab-btn" data-tab="downloads">Downloads</button>
+  </div>
+
+  <!-- Adblocker Tab -->
+  <div id="tab-adblocker" class="tab-content active">
+    <div class="section">
+      <div class="shield-row">
+        <span class="label">Shield</span>
+        <label class="toggle">
+          <input type="checkbox" id="shieldToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div id="shieldStatus" class="status on">ON</div>
+    </div>
+
+    <div class="section">
+      <div class="mode-row">
+        <span class="label">Mode</span>
+        <select id="modeSelect">
+          <option value="normal">Normal</option>
+          <option value="aggressive">Aggressive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section stats">
+      <div class="stat">
+        <span class="stat-value" id="killedToday">0</span>
+        <span class="stat-label">Killed today</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="killedTotal">0</span>
+        <span class="stat-label">Total killed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="allowedTotal">0</span>
+        <span class="stat-label">Popups allowed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="allowlistCount">0</span>
+        <span class="stat-label">Sites allowlisted</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="site-row">
+        <span class="label">Current site</span>
+        <span id="currentDomain" class="domain">—</span>
+      </div>
+      <button id="allowlistBtn" class="btn btn-secondary">Allowlist this site</button>
+      <div id="allowlistMsg" class="msg hidden"></div>
+    </div>
+
+    <div class="section actions">
+      <button id="resetStatsBtn" class="btn btn-danger">Reset stats</button>
+      <button id="openSettingsBtn" class="btn btn-secondary" style="margin-top:8px;">Open Settings</button>
+    </div>
+  </div>
+
+  <!-- Downloads Tab -->
+  <div id="tab-downloads" class="tab-content">
+    <div class="section videos">
+      <div id="videosList" class="videos-list">
+        <div class="empty">Scanning for videos...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

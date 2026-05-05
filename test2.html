@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test 2 — Normal Link</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+    h1 { color: #2e7d32; }
+    a { display: inline-block; padding: 14px 24px; font-size: 16px; background: #2e7d32; color: white; text-decoration: none; border-radius: 6px; }
+    a:hover { background: #1b5e20; }
+    .note { margin-top: 20px; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test 2: Normal Link</h1>
+    <p>This is a regular anchor link to example.com opened in a new tab.</p>
+    <a href="https://example.com" target="_blank">Open example.com</a>
+    <div class="note">
+      <strong>Expected result:</strong> The new tab opens and <em>stays open</em>. It should NOT be closed because example.com is a trusted domain and this is a normal user-initiated link click.
+    </div>
+  </div>
+</body>
+</html>
