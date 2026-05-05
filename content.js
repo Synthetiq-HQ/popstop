@@ -11,8 +11,15 @@
     if (debugMode) console.log('[PopStop Content]', ...args);
   }
 
-  // Load debug mode and allowlist from storage
+  // Load debug mode and allowlist from storage, then attach click listeners
   let siteAllowlisted = false;
+
+  function attachClickListeners() {
+    document.addEventListener('mousedown', handleMouseDown, true);
+    document.addEventListener('click', handleClick, true);
+    log('Synthetiq PopStop content script loaded');
+  }
+
   chrome.storage.local.get(['debugMode', 'allowlist']).then(r => {
     debugMode = !!r.debugMode;
     const allowlist = r.allowlist || [];
@@ -30,6 +37,7 @@
     }
     siteAllowlisted = allowlist.includes(domain);
     if (siteAllowlisted) log('Site is allowlisted — skipping aggressive overlay detection');
+    attachClickListeners();
   });
 
   // ---------------------------------------------------------------------------
@@ -156,9 +164,6 @@
     detectOverlays(e.clientX, e.clientY);
   }
 
-  document.addEventListener('mousedown', handleMouseDown, true);
-  document.addEventListener('click', handleClick, true);
-
   // ---------------------------------------------------------------------------
   // Overlay detection
   // ---------------------------------------------------------------------------
@@ -245,6 +250,7 @@
   }
 
   function generateSelector(el) {
+    if (!el) return '';
     if (el.id) return '#' + el.id;
     if (el.className && typeof el.className === 'string') {
       const cls = el.className.split(/\s+/).filter(c => c).join('.');
@@ -363,5 +369,4 @@
     (document.head || document.documentElement).appendChild(script);
   })();
 
-  log('Synthetiq PopStop content script loaded');
 })();

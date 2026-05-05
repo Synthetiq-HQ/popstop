@@ -135,6 +135,24 @@ export function classifyPopup(session, newTab, settings, burstCount = 0) {
     return { suspicious: false, score: -30, reasons: ['Trusted domain'] };
   }
 
+  // Without a click session, only block on explicit domain-based signals
+  if (!session) {
+    if (isKnownSuspiciousDomain(newTab.url)) {
+      score += 25;
+      reasons.push('Known suspicious domain');
+    }
+    if (hasPopupPattern(newTab.url)) {
+      score += 10;
+      reasons.push('URL matches popup/ad pattern');
+    }
+    if (isBlankUrl(newTab.url)) {
+      score += 10;
+      reasons.push('Blank URL (likely redirect via script)');
+    }
+    const suspicious = score >= threshold;
+    return { suspicious, score, reasons };
+  }
+
   // Timing score
   if (session) {
     const elapsed = Date.now() - session.timestamp;

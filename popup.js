@@ -330,7 +330,7 @@
           copyBtn.className = 'btn-small btn-copy';
           copyBtn.textContent = 'Copy URL';
           copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(v.url);
+            navigator.clipboard.writeText(v.url).catch(() => {});
             copyBtn.textContent = 'Copied!';
             setTimeout(() => copyBtn.textContent = 'Copy URL', 1500);
           });
@@ -380,7 +380,7 @@
           copyBtn.className = 'btn-small btn-copy';
           copyBtn.textContent = 'Copy';
           copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(v.url);
+            navigator.clipboard.writeText(v.url).catch(() => {});
             copyBtn.textContent = 'Copied!';
             setTimeout(() => copyBtn.textContent = 'Copy', 1500);
           });

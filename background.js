@@ -61,9 +61,10 @@ function pruneSessions() {
 function addSession(session) {
   pruneSessions();
   clickSessions.push(session);
-  // Also prune after a delay to keep memory clean
-  setTimeout(pruneSessions, CLICK_WINDOW_MS + 100);
 }
+
+// Keep memory clean with a periodic prune
+setInterval(pruneSessions, 1000);
 
 function getRelevantSession(tabId, newTabTimestamp) {
   pruneSessions();
@@ -155,7 +156,7 @@ chrome.tabs.onCreated.addListener(async (tab) => {
     console.log('[PopStop] Reasons:', result.reasons);
   }
 
-  if (result.suspicious) {
+  if (result.suspicious || isKnownSuspiciousDomain(tabUrl)) {
     const domain = extractDomain(tab.url || tab.pendingUrl);
 
     // Close the suspicious tab
@@ -205,6 +206,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
 
   // If tab was blank and now navigating to a suspicious domain, kill it
   const tabUrl = tab.url || tab.pendingUrl;
+  if (isInternalBrowserUrl(details.url)) return;
   if (tabUrl === 'about:blank' || !tabUrl) {
     const session = getRelevantSession(tab.openerTabId, Date.now());
     if (session) {

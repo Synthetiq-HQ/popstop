@@ -17,15 +17,24 @@ body {
 .header {
   background: #1a237e;
   color: white;
-  padding: 14px 16px;
+  padding: 12px 16px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
+  gap: 10px;
+}
+
+.header-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .header h1 {
   font-size: 16px;
   font-weight: 600;
+  flex: 1;
 }
 
 .version {

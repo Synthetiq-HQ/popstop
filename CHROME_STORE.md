@@ -28,9 +28,10 @@
 
 ### Screenshots (Required: 1–5 images)
 
-Take screenshots at **1280×800** or **640×400** (Chrome Web Store preferred sizes):
+Take screenshots at **1280×800** or **640×400** (Chrome Web Store preferred sizes).
+The store listing now uses the PopStop shield logo — make sure screenshots show the updated branding.
 
-1. **Popup — Adblocker tab** showing Shield ON, stats, current site
+1. **Popup — Adblocker tab** showing Shield ON, stats, current site (with the shield logo visible)
 2. **Popup — Downloads tab** showing detected videos (on a site with direct MP4s)
 3. **Settings page** showing Dashboard with stat cards
 4. **Settings page** showing Allowlist manager
@@ -113,7 +114,7 @@ VIDEO DOWNLOADS
 The extension can detect direct video file URLs (.mp4, .webm, etc.) on sites that serve them openly. It does NOT support protected streaming platforms like YouTube, Netflix, TikTok, or Instagram — these use DRM and authenticated streams that browser extensions cannot bypass.
 
 SUPPORT & SOURCE CODE
-Report issues or suggest features: https://github.com/Synthetiq-HQ/PopStop-killer/issues
+Report issues or suggest features: https://github.com/Synthetiq-HQ/popstop/issues
 ```
 
 #### Category
@@ -135,8 +136,8 @@ English (primary)
 | Item | URL |
 |------|-----|
 | Privacy Policy | Link to `PRIVACY_POLICY.md` in your repo (or host on GitHub Pages) |
-| Support / Contact | `https://github.com/Synthetiq-HQ/PopStop-killer/issues` |
-| Website | `https://github.com/Synthetiq-HQ/PopStop-killer` |
+| Support / Contact | `https://github.com/Synthetiq-HQ/popstop/issues` |
+| Website | `https://github.com/Synthetiq-HQ/popstop` |
 
 ---
 
@@ -154,11 +155,11 @@ English (primary)
 1. **Zip the extension folder**
    ```bash
    # Exclude non-extension files
-   zip -r PopStop-killer-v1.0.0.zip \
+   zip -r popstop-v1.0.0.zip \
      manifest.json background.js classifier.js content.js injected.js \
      popup.html popup.js popup.css \
      options.html options.js options.css \
-     rules.json icons/ \
+     rules.json icons/ branding.png \
      -x "*.md" -x "test*.html" -x ".git*" -x "canyoublockit.html"
    ```
 

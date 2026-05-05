@@ -1,11 +1,17 @@
-# Synthetiq PopStop
+<p align="center">
+  <img src="./branding.png" alt="Synthetiq PopStop" width="400">
+</p>
 
-> **The Popup Blackout for Your Browser.**  
-> Stop annoying popups, malicious redirects, and invisible click-trapping overlays.  
-> Part of the [Synthetiq](https://github.com/Synthetiq-HQ) toolkit — privacy-first, local-first, zero external dependencies.
+<p align="center">
+  <strong>The Popup Blackout for Your Browser.</strong><br>
+  Stop annoying popups, malicious redirects, and invisible click-trapping overlays.<br>
+  Part of the <a href="https://github.com/Synthetiq-HQ">Synthetiq</a> toolkit — privacy-first, local-first, zero external dependencies.
+</p>
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-yellow?logo=googlechrome)](./CHROME_STORE.md)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+<p align="center">
+  <a href="./CHROME_STORE.md"><img src="https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-yellow?logo=googlechrome" alt="Chrome Web Store"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+</p>
 
 ---
 

@@ -36,7 +36,7 @@
       if (!el) return;
       if (isImportantContent(el)) return;
       el.style.setProperty('pointer-events', 'none', 'important');
-      console.log('[CTK] Disabled overlay:', selector, 'Reason:', reason);
+      console.log('[PopStop] Disabled overlay:', selector, 'Reason:', reason);
     } catch (e) {}
   }
 
