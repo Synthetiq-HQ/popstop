@@ -41,9 +41,7 @@ It watches your clicks, scores newly opened tabs for suspicious behavior, and sh
 
 ## Demo
 
-https://github.com/user-attachments/assets/demo-placeholder
-
-*(Replace with a 10-second screen recording of the popup blocking in action)*
+*Screen recording coming soon.*
 
 ---
 
